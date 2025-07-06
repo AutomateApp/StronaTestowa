@@ -24,7 +24,7 @@
   <div id="output" style="text-align:center;">Ładowanie danych...</div>
 
   <script>
-    const apiUrl = "https://prod-203.westeurope.logic.azure.com:443/workflows/d16b88ce180447749d5c2968842439ac/triggers/manual/paths/invoke?api-version=2016-06-01"; // <-- wklej tutaj swój URL z Power Automate
+    const apiUrl = "https://prod-203.westeurope.logic.azure.com:443/workflows/d16b88ce180447749d5c2968842439ac/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=863yWIqF2PhRwDrFjMSYrIqCOl4rT2JetXqjfB4YpDw"; // <-- wklej tutaj swój URL z Power Automate
 
     fetch(apiUrl)
       .then(response => {
