@@ -2,11 +2,67 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Moja Strona</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Dane z Power Automate</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 80%;
+      margin: 20px auto;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    h1 {
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-  <h1>Witaj na mojej stronie!</h1>
-  <p>To działa przez GitHub Pages 😎</p>
+  <h1>Dane z Power Automate</h1>
+  <div id="output" style="text-align:center;">Ładowanie danych...</div>
+
+  <script>
+    const apiUrl = "https://prod-203.westeurope.logic.azure.com:443/workflows/d16b88ce180447749d5c2968842439ac/triggers/manual/paths/invoke?api-version=2016-06-01"; // <-- wklej tutaj swój URL z Power Automate
+
+    fetch(apiUrl)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Błąd API: " + response.status);
+        }
+        return response.json();
+      })
+      .then(data => {
+        const output = document.getElementById("output");
+
+        if (!Array.isArray(data)) {
+          output.innerHTML = "<p>Nieprawidłowy format danych (oczekiwano tablicy JSON).</p>";
+          console.log(data);
+          return;
+        }
+
+        let table = "<table><thead><tr>";
+        // Nagłówki z kluczy pierwszego obiektu
+        Object.keys(data[0]).forEach(key => {
+          table += `<th>${key}</th>`;
+        });
+        table += "</tr></thead><tbody>";
+
+        data.forEach(item => {
+          table += "<tr>";
+          Object.values(item).forEach(value => {
+            table += `<td>${value}</td>`;
+          });
+          table += "</tr>";
+        });
+
+        table += "</tbody></table>";
+        output.innerHTML = table;
+      })
+      .catch(error => {
+        document.getElementById("output").innerHTML = "Błąd: " + error.message;
+      });
+  </script>
 </body>
 </html>
